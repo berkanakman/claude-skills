@@ -13,6 +13,166 @@ skills/
 └── README.md       # Bu dosya
 ```
 
+---
+
+## Kurulum
+
+### Gereksinimler
+
+- [Claude Code CLI](https://claude.ai/claude-code) yüklü olmalı
+- Git (opsiyonel, klonlama için)
+
+### Adım 1: Depoyu Klonlama
+
+```bash
+# HTTPS ile
+git clone https://github.com/berkanakman/claude-skills.git
+
+# veya SSH ile
+git clone git@github.com:berkanakman/claude-skills.git
+```
+
+### Adım 2: Skills Klasörüne Kopyalama
+
+Skills dosyalarını Claude Code'un skills dizinine kopyalayın:
+
+```bash
+# macOS / Linux
+cp -r claude-skills/* ~/.claude/skills/
+
+# Windows (PowerShell)
+Copy-Item -Recurse claude-skills\* $env:USERPROFILE\.claude\skills\
+```
+
+### Adım 3: Doğrulama
+
+Claude Code'u başlatın ve skill'lerin yüklendiğini doğrulayın:
+
+```bash
+claude
+```
+
+### Alternatif: Doğrudan İndirme
+
+Git kullanmak istemiyorsanız, GitHub'dan ZIP olarak indirip manuel olarak `~/.claude/skills/` dizinine çıkarabilirsiniz.
+
+---
+
+## Kullanım
+
+### Temel Kullanım
+
+Skills, Claude Code ile etkileşim sırasında otomatik olarak etkinleşir. Belirli bir skill'i manuel olarak çağırmak için:
+
+```
+/skill-name
+```
+
+Örnek:
+```
+/backend-coding
+/api-design
+/web-security
+```
+
+### Skill Listesini Görüntüleme
+
+Mevcut skill'leri görmek için:
+
+```bash
+ls ~/.claude/skills/
+```
+
+### Belirli Bir Skill'i Kullanma
+
+#### 1. API Tasarımı
+```
+Kullanıcı: /api-design
+Kullanıcı: Kullanıcı yönetimi için RESTful API tasarla
+```
+
+#### 2. Backend Geliştirme
+```
+Kullanıcı: /backend-coding
+Kullanıcı: Node.js ile authentication servisi oluştur
+```
+
+#### 3. Frontend Geliştirme
+```
+Kullanıcı: /frontend-coding
+Kullanıcı: React ile form validation komponenti yaz
+```
+
+#### 4. Güvenlik Denetimi
+```
+Kullanıcı: /web-security
+Kullanıcı: Bu kodu güvenlik açısından incele
+```
+
+#### 5. Mobil Mimari
+```
+Kullanıcı: /mobile-architecture
+Kullanıcı: Flutter için MVVM mimarisi tasarla
+```
+
+#### 6. Desktop Uygulama
+```
+Kullanıcı: /desktop-architecture
+Kullanıcı: Electron ile güvenli IPC yapısı kur
+```
+
+### Otomatik Skill Aktivasyonu
+
+Meta-skill'ler (`user-invocable: false`) otomatik olarak çalışır ve:
+
+- **guardrails**: Her istekte bağlam doğrulaması yapar
+- **orchestration**: Uygun skill'leri belirler
+- **qa**: Kod kalitesini değerlendirir
+- **regression**: Geriye dönük uyumluluğu kontrol eder
+
+### Proje Bazlı Kullanım
+
+Projenizin kök dizininde `.claude/settings.local.json` dosyası oluşturarak proje özelinde ayarlar yapabilirsiniz:
+
+```json
+{
+  "skills": {
+    "preferred": ["backend-coding", "api-design"],
+    "disabled": ["desktop-architecture"]
+  }
+}
+```
+
+### Çıktı Formatları
+
+Her skill standart bir çıktı formatı üretir. Örnek backend-coding çıktısı:
+
+```
+BACKEND CODE REVIEW:
+
+FILE: src/services/UserService.ts
+LAYER: Service
+
+CODE QUALITY:
+- Architecture: GOOD
+- Error Handling: NEEDS WORK
+- Security: GOOD
+- Testability: GOOD
+
+ISSUES FOUND:
+- [Issue 1]: Missing input validation (line 45)
+
+SUGGESTIONS:
+- Add Zod schema for request validation
+
+RISK ASSESSMENT:
+- Production risk: LOW
+- Failure impact: LOCAL
+- Rollback complexity: EASY
+```
+
+---
+
 ## Skill Kategorileri
 
 ### 1. Meta Skills (`_meta/`)
